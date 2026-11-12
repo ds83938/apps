@@ -2,7 +2,7 @@
   "id": "can_scanner",
   "title": "Signal Scanner",
   "description": "Logs every change of the car signals it listens to, with a time, to a file. Read only.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "vendor": "custom",
   "loggingId": "SCAN",
   "iconGlyph": "SCN",
@@ -19,15 +19,8 @@
     "de.bmw.infotainment.vehicle.Vehicle2": {
       "statusCarSpeed2": "rs"
     },
-    "de.bmw.infotainment.drivingexcitement.FES": {
-      "statusSwitchDriveDynamicSport2": "rs",
-      "statusActualValueTorque2": "rs",
-      "statusFESVehicleDynamicSwitchHMI": "rs"
-    },
-    "de.bmw.infrastructure.VehicleInformation": {
-      "statusGearboxDrive": "s",
-      "DataPowerTrain2": "s"
-    },
+    "de.bmw.infotainment.drivingexcitement.FES": "*",
+    "de.bmw.infrastructure.VehicleInformation": "*",
     "de.bmw.infotainment.KombiIF": {
       "statusRangeTankStatus": "rs"
     },
@@ -70,13 +63,18 @@
           "scroll",
           "RECENT",
           ""
+        ],
+        [
+          "scroll",
+          "FOUND",
+          ""
         ]
       ]
     }
   ],
   "settings": [],
   "config": {
-    "_comment": "watch: what the scanner subscribes to, interface -> fields. Keep it in step with \"signals\" (the installer only grants what \"signals\" lists; the build does not pass \"signals\" to the app).",
+    "_comment": "watch: what the scanner subscribes to, interface -> fields, or \"*\" for every field the interface has. Keep it in step with \"signals\" (the installer only grants what \"signals\" lists; the build does not pass \"signals\" to the app). quietInMark: still logged, but left out of the Mark result (they move whenever anyone moves in the car). search: catalogue names to list on the page.",
     "watch": {
       "de.bmw.infotainment.vehicle.CDS": [
         "statusEngineSpeed2",
@@ -89,21 +87,19 @@
       "de.bmw.infotainment.vehicle.Vehicle2": [
         "statusCarSpeed2"
       ],
-      "de.bmw.infotainment.drivingexcitement.FES": [
-        "statusSwitchDriveDynamicSport2",
-        "statusActualValueTorque2",
-        "statusFESVehicleDynamicSwitchHMI"
-      ],
-      "de.bmw.infrastructure.VehicleInformation": [
-        "statusGearboxDrive",
-        "DataPowerTrain2"
-      ],
+      "de.bmw.infotainment.drivingexcitement.FES": "*",
+      "de.bmw.infrastructure.VehicleInformation": "*",
       "de.bmw.infotainment.KombiIF": [
         "statusRangeTankStatus"
       ],
       "de.bmw.infrastructure.EnvironmentalInformation": [
         "ExteriorTemperature"
       ]
-    }
+    },
+    "quietInMark": [
+      "CDS2.statusLongitudinalAccelerationMassCenter",
+      "CDS2.statusLateralAccelerationMassCenter"
+    ],
+    "search": "exhaust|abgas|klappe|flap|auspuff|sound|akust|acoust"
   }
 }
