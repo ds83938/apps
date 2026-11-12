@@ -1,0 +1,212 @@
+{
+  "id": "injector_check",
+  "title": "Injector Check",
+  "description": "INPA-style injector check for B58 / B48 / B38 engines: injector corrections, rough running and misfires per cylinder, fuel pressures, a 30 s idle test and the engine's fault memory. Read-only.",
+  "version": "0.1.0",
+  "vendor": "custom",
+  "loggingId": "OAIC",
+  "iconGlyph": "INJ",
+  "signals": {
+    "com.harman.infotainment.systemfunctions.tasu.tasu.InternalTasu": {
+      "_instances": "SystemFunctionsInternalTasuInst1",
+      "_methods": [
+        "sendTasuRequest"
+      ],
+      "_broadcasts": [
+        "sendTasuResponse"
+      ]
+    }
+  },
+  "screens": [
+    {
+      "name": "MAIN",
+      "kind": "canvas",
+      "title": "Injector Check",
+      "buttons": [
+        [
+          "BTN_PAGE",
+          "Next page"
+        ],
+        [
+          "BTN_TEST",
+          "Start / stop idle test"
+        ],
+        [
+          "BTN_FAULTS",
+          "Read fault memory"
+        ],
+        [
+          "BTN_SETTINGS",
+          "Settings"
+        ]
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "key": "page",
+      "label": "Start page",
+      "type": "choice",
+      "default": "injectors",
+      "options": [
+        [
+          "injectors",
+          "Injectors"
+        ],
+        [
+          "fuel",
+          "Fuel"
+        ],
+        [
+          "test",
+          "Idle test"
+        ],
+        [
+          "faults",
+          "Faults"
+        ]
+      ]
+    },
+    {
+      "key": "units",
+      "label": "Units",
+      "type": "choice",
+      "default": "metric",
+      "options": [
+        [
+          "metric",
+          "°C, bar"
+        ],
+        [
+          "us",
+          "°F, psi"
+        ]
+      ]
+    },
+    {
+      "key": "utcOffset",
+      "label": "Time zone for test dates (UTC +/- hours)",
+      "type": "number",
+      "unit": "min",
+      "default": 60,
+      "steps": [
+        -720,
+        -660,
+        -600,
+        -540,
+        -480,
+        -420,
+        -360,
+        -300,
+        -240,
+        -180,
+        -120,
+        -60,
+        0,
+        60,
+        120,
+        180,
+        240,
+        300,
+        360,
+        420,
+        480,
+        540,
+        600,
+        660,
+        720,
+        780,
+        840
+      ],
+      "labels": {
+        "-720": "UTC-12",
+        "-660": "UTC-11",
+        "-600": "UTC-10",
+        "-540": "UTC-9",
+        "-480": "UTC-8",
+        "-420": "UTC-7",
+        "-360": "UTC-6",
+        "-300": "UTC-5",
+        "-240": "UTC-4",
+        "-180": "UTC-3",
+        "-120": "UTC-2",
+        "-60": "UTC-1",
+        "0": "UTC+0",
+        "60": "UTC+1",
+        "120": "UTC+2",
+        "180": "UTC+3",
+        "240": "UTC+4",
+        "300": "UTC+5",
+        "360": "UTC+6",
+        "420": "UTC+7",
+        "480": "UTC+8",
+        "540": "UTC+9",
+        "600": "UTC+10",
+        "660": "UTC+11",
+        "720": "UTC+12",
+        "780": "UTC+13",
+        "840": "UTC+14"
+      }
+    },
+    {
+      "key": "theme",
+      "label": "Colour theme",
+      "type": "choice",
+      "default": "m_tricolour",
+      "options": [
+        [
+          "m_red",
+          "M Red"
+        ],
+        [
+          "m_tricolour",
+          "M Tricolour"
+        ],
+        [
+          "ice",
+          "Ice White"
+        ],
+        [
+          "amber",
+          "Night Amber"
+        ]
+      ]
+    },
+    {
+      "key": "layout",
+      "label": "Screen layout",
+      "type": "choice",
+      "default": "full",
+      "options": [
+        [
+          "full",
+          "Full screen"
+        ],
+        [
+          "standard",
+          "Standard"
+        ]
+      ]
+    },
+    {
+      "key": "demo",
+      "label": "Demo data",
+      "type": "choice",
+      "default": "auto",
+      "options": [
+        [
+          "auto",
+          "Auto (until the engine unit answers)"
+        ],
+        [
+          "on",
+          "Always"
+        ],
+        [
+          "off",
+          "Never"
+        ]
+      ]
+    }
+  ]
+}
