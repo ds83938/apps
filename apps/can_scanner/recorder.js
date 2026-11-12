@@ -58,4 +58,41 @@ function summarise(entries) {
     return counts;
 }
 
-module.exports = { Recorder, summarise };
+/**
+ * Splits what changed around a mark into NEW and BUSY.
+ *
+ *   t           the mark's time (ms since the recorder started)
+ *   o.before    window starts this long before t,   o.after  and ends this long after it
+ *   o.baseMs    how far back before the window to look for "was it already busy"
+ *   o.maxBase   a signal that changed more than this many times in the baseline is BUSY (default 1)
+ *   o.ignore    keys that are always BUSY
+ *   o.skip      [[from, to], ...] earlier mark windows: changes inside them don't count as baseline
+ *               (the button you pressed 15 s ago must not make itself look busy)
+ *
+ * Returns { fresh: [{key, count, value}], busy: [{key, count}], baselineMs } where baselineMs is how
+ * much history there really was (a mark right after start has less than baseMs).
+ */
+function classify(entries, t, o) {
+    const before = o.before, after = o.after, baseMs = o.baseMs;
+    const maxBase = o.maxBase === undefined ? 1 : o.maxBase;
+    const ignore = o.ignore || [], skip = o.skip || [];
+    const winStart = t - before, baseStart = winStart - baseMs;
+    const win = {}, base = {};
+    for (const e of entries) {
+        if (e.key === 'MARK') continue;
+        if (e.t >= winStart && e.t <= t + after) {
+            (win[e.key] = win[e.key] || []).push(e);
+        } else if (e.t >= baseStart && e.t < winStart && !skip.some((w) => e.t >= w[0] && e.t <= w[1])) {
+            base[e.key] = (base[e.key] || 0) + 1;
+        }
+    }
+    const fresh = [], busy = [];
+    Object.keys(win).forEach((k) => {
+        const list = win[k];
+        if (ignore.indexOf(k) < 0 && (base[k] || 0) <= maxBase) fresh.push({ key: k, count: list.length, value: list[list.length - 1].v });
+        else busy.push({ key: k, count: list.length });
+    });
+    return { fresh, busy, baselineMs: Math.max(0, Math.min(baseMs, winStart)) };
+}
+
+module.exports = { Recorder, summarise, classify };

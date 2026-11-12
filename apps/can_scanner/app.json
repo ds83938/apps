@@ -1,8 +1,8 @@
 {
   "id": "can_scanner",
   "title": "Signal Scanner",
-  "description": "Logs every change of the car signals it listens to, with a time, to a file. Read only.",
-  "version": "0.2.0",
+  "description": "Logs every change of the car signals it listens to, with a time, to a file, and after a Mark says which quiet signals moved. Read only.",
+  "version": "0.3.0",
   "vendor": "custom",
   "loggingId": "SCAN",
   "iconGlyph": "SCN",
@@ -26,6 +26,19 @@
     },
     "de.bmw.infrastructure.EnvironmentalInformation": {
       "ExteriorTemperature": "s"
+    },
+    "de.bmw.infotainment.vehicle.TPMS": {
+      "statusTyrePressure": "rs",
+      "statusTyreTemperature": "rs",
+      "_optional": "tyre pressures in the scan"
+    },
+    "de.bmw.infotainment.misc.MDrive": {
+      "dataDisplayGearbox": "s",
+      "_optional": "the M drive display in the scan"
+    },
+    "de.bmw.infrastructure.VehicleCondition": {
+      "VehicleCondition": "s",
+      "_optional": "the car's wake / ignition state in the scan"
     }
   },
   "screens": [
@@ -74,7 +87,7 @@
   ],
   "settings": [],
   "config": {
-    "_comment": "watch: what the scanner subscribes to, interface -> fields, or \"*\" for every field the interface has. Keep it in step with \"signals\" (the installer only grants what \"signals\" lists; the build does not pass \"signals\" to the app). quietInMark: still logged, but left out of the Mark result (they move whenever anyone moves in the car). search: catalogue names to list on the page.",
+    "_comment": "watch: what the scanner subscribes to, interface -> fields, or \"*\" for every field the interface has. Keep it in step with \"signals\" (the installer only grants what \"signals\" lists; the build does not pass \"signals\" to the app). poll: also re-read that interface's fields every N ms (the car never notifies tyre pressures). quietInMark: always counted as busy in a Mark result. search: catalogue names to list on the page.",
     "watch": {
       "de.bmw.infotainment.vehicle.CDS": [
         "statusEngineSpeed2",
@@ -94,12 +107,25 @@
       ],
       "de.bmw.infrastructure.EnvironmentalInformation": [
         "ExteriorTemperature"
+      ],
+      "de.bmw.infotainment.vehicle.TPMS": [
+        "statusTyrePressure",
+        "statusTyreTemperature"
+      ],
+      "de.bmw.infotainment.misc.MDrive": [
+        "dataDisplayGearbox"
+      ],
+      "de.bmw.infrastructure.VehicleCondition": [
+        "VehicleCondition"
       ]
     },
     "quietInMark": [
       "CDS2.statusLongitudinalAccelerationMassCenter",
       "CDS2.statusLateralAccelerationMassCenter"
     ],
-    "search": "exhaust|abgas|klappe|flap|auspuff|sound|akust|acoust"
+    "search": "exhaust|abgas|klappe|flap|auspuff|sound|akust|acoust",
+    "poll": {
+      "de.bmw.infotainment.vehicle.TPMS": 4000
+    }
   }
 }
