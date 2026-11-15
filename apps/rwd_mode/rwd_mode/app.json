@@ -1,0 +1,159 @@
+{
+  "id": "rwd_mode",
+  "title": "RWD Mode",
+  "description": "AWD / RWD on a button press, the cautious way: the DSC's own LMV_FUNKTION job, allowed DSC variant only, stopped in P (engine may run), two presses, read-back confirmed. Clears the xDrive-off fault 480724 after AWD is back, only when it is the DSC's sole entry. An ignition cycle always brings AWD back. Ships Disarmed.",
+  "version": "1.3.0",
+  "vendor": "custom",
+  "loggingId": "OAA6",
+  "iconGlyph": "sliders",
+  "mguHmi": [
+    "ID7",
+    "ID8"
+  ],
+  "requires": {
+    "idrive7-renderd": "2.1.18",
+    "mgu-inputgate": "1.1.0"
+  },
+  "signals": {
+    "com.harman.infotainment.systemfunctions.tasu.tasu.InternalTasu": {
+      "_instances": "SystemFunctionsInternalTasuInst1",
+      "_methods": [
+        "sendTasuRequest"
+      ],
+      "_broadcasts": [
+        "sendTasuResponse"
+      ]
+    },
+    "de.bmw.infotainment.vehicle.CDS": {
+      "statusEngineSpeed2": "rs"
+    },
+    "de.bmw.infotainment.vehicle.Vehicle2": {
+      "statusCarSpeed2": "rs"
+    },
+    "de.bmw.infrastructure.VehicleInformation": {
+      "statusGearboxDrive": "s",
+      "DataPowerTrain2": "s"
+    },
+    "de.bmw.infrastructure.VehicleCondition": {
+      "VehicleCondition": "s"
+    },
+    "de.bmw.infotainment.drivingexcitement.FES": {
+      "statusFESVehicleDynamicSwitchHMI": "rs"
+    }
+  },
+  "screens": [
+    {
+      "name": "MAIN",
+      "kind": "canvas",
+      "title": "SETUP",
+      "buttons": [
+        [
+          "BTN_AWD",
+          "AWD"
+        ],
+        [
+          "BTN_RWD",
+          "RWD"
+        ],
+        [
+          "BTN_SETTINGS",
+          "Settings"
+        ]
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "key": "arm",
+      "label": "RWD Mode",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        [
+          "off",
+          "Disarmed · nothing is sent (safe)"
+        ],
+        [
+          "on",
+          "Armed · AWD / RWD buttons send to the DSC"
+        ]
+      ]
+    },
+    {
+      "key": "theme",
+      "label": "Colour theme",
+      "type": "choice",
+      "default": "m_tricolour",
+      "options": [
+        [
+          "m_red",
+          "M Red"
+        ],
+        [
+          "m_tricolour",
+          "M Tricolour"
+        ],
+        [
+          "ice",
+          "Ice White"
+        ],
+        [
+          "amber",
+          "Night Amber"
+        ]
+      ]
+    },
+    {
+      "key": "layout",
+      "label": "Screen layout",
+      "type": "choice",
+      "default": "full",
+      "options": [
+        [
+          "full",
+          "Full screen"
+        ],
+        [
+          "standard",
+          "Standard"
+        ]
+      ]
+    },
+    {
+      "key": "renderer",
+      "label": "Renderer",
+      "type": "choice",
+      "default": "auto",
+      "options": [
+        [
+          "auto",
+          "GPU 60 fps (default)"
+        ],
+        [
+          "software",
+          "Software"
+        ]
+      ]
+    },
+    {
+      "key": "demo",
+      "label": "Demo data",
+      "type": "choice",
+      "default": "off",
+      "options": [
+        [
+          "auto",
+          "Auto"
+        ],
+        [
+          "on",
+          "Always"
+        ],
+        [
+          "off",
+          "Never"
+        ]
+      ]
+    }
+  ]
+}
